@@ -1,0 +1,84 @@
+  Undefined item: "offset".
+The target architecture is set to "arm".
+Remote debugging using localhost:1234
+Reading symbols from /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3...
+warning: BFD: warning: system-supplied DSO at 0x40820000 has a corrupt string table index
+0x40810598 in _start () from /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3
+Breakpoint 1 at 0x400732: file buggy_app.c, line 36.
+Breakpoint 2 at 0x400682: file buggy_app.c, line 7.
+Breakpoint 3 at 0x4006cc: file buggy_app.c, line 18.
+Breakpoint 4 at 0x400702: file buggy_app.c, line 28.
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x00400732 in main at buggy_app.c:36
+2       breakpoint     keep y   0x00400682 in process_data at buggy_app.c:7
+3       breakpoint     keep y   0x004006cc in create_message at buggy_app.c:18
+4       breakpoint     keep y   0x00400702 in calculate at buggy_app.c:28
+Continuing.
+
+Breakpoint 1, main (argc=1, argv=0x407ffe04) at buggy_app.c:36
+36	{
+#0  main (argc=1, argv=0x407ffe04) at buggy_app.c:36
+arr = {0, 1082130352, 266318039, 127, 0}
+msg = 0x64 <error: Cannot access memory at address 0x64>
+Continuing.
+
+Breakpoint 2, process_data (data=0x407ffc68, len=5) at buggy_app.c:7
+7	    int sum = 0;
+Breakpoint 5 at 0x40068c: file buggy_app.c, line 10.
+Continuing.
+
+Breakpoint 5, process_data (data=0x407ffc68, len=5) at buggy_app.c:10
+10	        sum += data[i];
+$1 = 5
+$2 = 5
+$3 = 50
+$4 = -1779489536
+$5 = (int *) 0x407ffc78
+$6 = (int *) 0x407ffc7c
+0x407ffc7c:	-1779489536
+#0  process_data (data=0x407ffc68, len=5) at buggy_app.c:10
+#1  0x00400774 in main (argc=1, argv=0x407ffe04) at buggy_app.c:42
+pc             0x40068c            0x40068c <process_data+20>
+sp             0x407ffc40          0x407ffc40
+lr             0x400775            4196213
+Continuing.
+
+Breakpoint 3, create_message (text=0x400940 "Hello Embedded Linux") at buggy_app.c:18
+18	    char *buf = malloc(strlen(text) + 1);
+#0  create_message (text=0x400940 "Hello Embedded Linux") at buggy_app.c:18
+#1  0x00400788 in main (argc=1, argv=0x407ffe04) at buggy_app.c:46
+text = 0x400940 "Hello Embedded Linux"
+20	    strcpy(buf, text);
+$7 = 0x403598 ""
+21	    free(buf);
+$8 = 0x403598 "Hello Embedded Linux"
+0x403598:	"Hello Embedded Linux"
+23	    return buf;
+$9 = 0x403598 "\003\004"
+0x403598:	"\003\004"
+#0  create_message (text=0x400940 "Hello Embedded Linux") at buggy_app.c:23
+#1  0x00400788 in main (argc=1, argv=0x407ffe04) at buggy_app.c:46
+pc             0x4006ee            0x4006ee <create_message+42>
+sp             0x407ffc40          0x407ffc40
+lr             0x403008            4206600
+Continuing.
+
+Breakpoint 4, calculate (a=100000, b=100000) at buggy_app.c:28
+28	    int result = a * b;
+a = 100000
+b = 100000
+$10 = 100000
+$11 = 100000
+$12 = 10000000000
+$13 = 4
+30	    printf("calculate(%d, %d) = %d\n", a, b, result);
+$14 = 1410065408
+$15 = 0x540be400
+$16 = 0x540be400
+pc             0x40070c            0x40070c <calculate+20>
+sp             0x407ffc40          0x407ffc40
+lr             0x4007b5            4196277
+#0  calculate (a=100000, b=100000) at buggy_app.c:30
+#1  0x004007b4 in main (argc=1, argv=0x407ffe04) at buggy_app.c:50
+Continuing.
+[Inferior 1 (process 16556) exited normally]
